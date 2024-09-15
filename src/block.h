@@ -14,6 +14,9 @@ class Block{
 
     void Draw();
     void move(int row, int  col);
+    void rotate();
+    void undo_rotation();
+
     std::vector<position> get_cell_Position();
 
     private:

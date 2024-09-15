@@ -15,6 +15,7 @@ public:
     void initialize();
     void print();
     void draw();
+    bool iscelloutside(int row, int col);
   
 
 private:

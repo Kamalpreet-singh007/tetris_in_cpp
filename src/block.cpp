@@ -13,14 +13,13 @@ void Block::Draw(){
         
 
         for(position item: color_tiles){
-            DrawRectangle(item.row*cell_size+1, item.column*cell_size+1, cell_size-1, cell_size-1, colors[id]);
+            DrawRectangle(item.column*cell_size+1, item.row*cell_size+1, cell_size-1, cell_size-1, colors[id]);
         }
     }
 
 void Block::move(int rowss, int colss){
     row_offset += rowss;
     col_offset += colss;
-    std::cout<<"row offset"<<row_offset<<std::endl<<"col offset"<<col_offset;
 }
 
 std::vector<position> Block::get_cell_Position(){
@@ -33,3 +32,15 @@ std::vector<position> Block::get_cell_Position(){
     return movedtiles;
 }
 
+void Block::rotate(){
+    rotation_state++;
+    if ((rotation_state == (int)cells.size())){
+        rotation_state =0;
+    }
+}
+void Block::undo_rotation(){
+    rotation_state --;
+    if(rotation_state == -1){
+        rotation_state=(int)cells.size()-1 ;
+    }
+}
