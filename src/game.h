@@ -28,12 +28,17 @@ public:
     void lockblock();
 
 
+    bool GameOver;
+
+
 private:
 std::vector<Block> blocks;
 Block current_block;
 Block next_block;
 bool isblockoutside();
 bool blockfits();
+void reset();
+
 
 };
 

@@ -2,7 +2,7 @@
 #include<iostream>
 Game::Game(){
     // grid Gridd ;
-    
+    GameOver = false;
     Grid = grid();
     blocks =GetAllBlocks();
     current_block = GetRandomBlock();
@@ -34,9 +34,14 @@ void Game::Draw(){
 
 void Game::handel_input(){
     int keyprsessed = GetKeyPressed();
+    if(GameOver && keyprsessed !=0){
+        GameOver = false;
 
+        reset();
+    }
     switch (keyprsessed)
     {
+    
     case KEY_LEFT:
         move_block_left();
         break;
@@ -54,25 +59,30 @@ void Game::handel_input(){
 }
 
 void Game::move_block_left(){
+    if(!GameOver){
     current_block.move(0,-1);
     if(isblockoutside() ||!blockfits()){
         current_block.move(0,1);
     }
+    }
 }
 void Game::move_block_right() {
+    if(!GameOver){
     current_block.move(0,1);
 
     if(isblockoutside()|| !blockfits()){
         current_block.move(0,-1);
     }
+    }
 }
 void Game::move_block_down(){
+    if(!GameOver){
     current_block.move(1,0);
 
     if(isblockoutside() || !blockfits()){
         current_block.move(-1,0);
         lockblock();
-
+    }
     }
 }
 
@@ -99,7 +109,11 @@ void Game::lockblock(){
 
     }
     current_block =next_block;
+    if(blockfits()== false){
+        GameOver = true;
+    }
     next_block = GetRandomBlock();
+    Grid.clearfullrows();
 
 }
 bool Game::blockfits(){
@@ -114,3 +128,9 @@ bool Game::blockfits(){
     return true;
 }
 
+void Game::reset(){
+    Grid.initialize();
+    blocks = GetAllBlocks();
+    current_block =GetRandomBlock();
+    next_block = GetRandomBlock();
+}
