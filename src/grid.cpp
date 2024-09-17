@@ -40,3 +40,9 @@ bool grid::iscelloutside(int row, int col){
     }
     return true;
 }
+bool grid::is_cellempty(int row, int column){
+    if(Grid[row][column] == 0){
+        return true;
+    }
+    return false;
+}

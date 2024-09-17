@@ -19,16 +19,21 @@ public:
 
     //input handeling
     void handel_input();
+
+    //movement
     void move_block_left();
     void move_block_right();
     void move_block_down();
     void rotate_block();
+    void lockblock();
+
 
 private:
 std::vector<Block> blocks;
 Block current_block;
 Block next_block;
 bool isblockoutside();
+bool blockfits();
 
 };
 

@@ -15,6 +15,7 @@ public:
     void initialize();
     void print();
     void draw();
+    bool is_cellempty(int row, int column);
     bool iscelloutside(int row, int col);
   
 

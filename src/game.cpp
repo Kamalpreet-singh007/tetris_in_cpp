@@ -55,22 +55,24 @@ void Game::handel_input(){
 
 void Game::move_block_left(){
     current_block.move(0,-1);
-    if(isblockoutside()){
+    if(isblockoutside() ||!blockfits()){
         current_block.move(0,1);
     }
 }
-void Game::move_block_right(){
+void Game::move_block_right() {
     current_block.move(0,1);
 
-    if(isblockoutside()){
+    if(isblockoutside()|| !blockfits()){
         current_block.move(0,-1);
     }
 }
 void Game::move_block_down(){
     current_block.move(1,0);
 
-    if(isblockoutside()){
+    if(isblockoutside() || !blockfits()){
         current_block.move(-1,0);
+        lockblock();
+
     }
 }
 
@@ -80,13 +82,35 @@ bool Game::isblockoutside(){
         if(Grid.iscelloutside(item.row, item.column)){
             return true;
         }
-        
     }return false;
 }
+
 void Game::rotate_block(){
     current_block.rotate();
-    if(isblockoutside()){
+    if(isblockoutside() || !blockfits()){
         current_block.undo_rotation();
     }
+}
+
+void Game::lockblock(){
+    std::vector<position> tiles = current_block.get_cell_Position();
+    for (position item :tiles){
+        Grid.Grid[item.row][item.column] = current_block.id;
+
+    }
+    current_block =next_block;
+    next_block = GetRandomBlock();
+
+}
+bool Game::blockfits(){
+    std::vector<position> tiles = current_block.get_cell_Position();
+
+    for( position item: tiles){
+        if(!Grid.is_cellempty(item.row, item.column)){
+            return false;
+        } 
+
+    }
+    return true;
 }
 
