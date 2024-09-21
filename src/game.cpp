@@ -7,6 +7,19 @@ Game::Game(){
     blocks =GetAllBlocks();
     current_block = GetRandomBlock();
     next_block = GetRandomBlock();
+    score =0;
+    InitAudioDevice();
+    music =LoadMusicStream("sound/music.mp3");
+    rotatesound = LoadSound("sound/rotate.mp3");
+    clearsound = LoadSound("sound/clear.mp3");
+    PlayMusicStream(music);
+}
+Game::~Game(){
+    UnloadMusicStream(music);
+    UnloadSound(rotatesound);
+    UnloadSound(clearsound);
+    CloseAudioDevice();
+
 }
 
 Block Game::GetRandomBlock()
@@ -29,7 +42,8 @@ std::vector<Block> Game::GetAllBlocks()
 
 void Game::Draw(){
     Grid.draw();
-    current_block.Draw();
+    current_block.Draw(11, 11);
+    next_block.Draw(270,270);
 }
 
 void Game::handel_input(){
@@ -50,6 +64,7 @@ void Game::handel_input(){
         break;
     case KEY_DOWN:
         move_block_down();
+        updatescores(0, 1);
         break;
     case KEY_UP:
         rotate_block();
@@ -100,6 +115,9 @@ void Game::rotate_block(){
     if(isblockoutside() || !blockfits()){
         current_block.undo_rotation();
     }
+    else{
+        PlaySound(rotatesound);
+    }
 }
 
 void Game::lockblock(){
@@ -113,8 +131,11 @@ void Game::lockblock(){
         GameOver = true;
     }
     next_block = GetRandomBlock();
-    Grid.clearfullrows();
-
+    int rowscleared =Grid.clearfullrows();
+    if (rowscleared >0){
+        PlaySound(clearsound);
+    }
+    updatescores(rowscleared, 0);
 }
 bool Game::blockfits(){
     std::vector<position> tiles = current_block.get_cell_Position();
@@ -133,4 +154,24 @@ void Game::reset(){
     blocks = GetAllBlocks();
     current_block =GetRandomBlock();
     next_block = GetRandomBlock();
+    score =0;
+}
+
+void Game::updatescores(int linescleared ,int blocksmoved){
+    switch (linescleared)
+    {
+    case 1:
+    score += 100;
+        break;
+    case 2:
+    score += 300;
+        break;
+    case 3:
+    score += 500;
+        break;        
+    
+    default:
+        break;
+    }
+    score += blocksmoved;
 }

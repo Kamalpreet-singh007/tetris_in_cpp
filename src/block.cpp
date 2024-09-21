@@ -8,18 +8,18 @@ Block::Block(){
     col_offset = 0;
 }
 
-void Block::Draw(){
+void Block::Draw(int offsetx ,int offsety){
         std::vector<position>color_tiles = get_cell_Position();
         
 
         for(position item: color_tiles){
-            DrawRectangle(item.column*cell_size+1, item.row*cell_size+1, cell_size-1, cell_size-1, colors[id]);
+            DrawRectangle(item.column*cell_size+offsetx, item.row*cell_size+offsety, cell_size-1, cell_size-1, colors[id]);
         }
     }
 
-void Block::move(int rowss, int colss){
-    row_offset += rowss;
-    col_offset += colss;
+void Block::move(int rows, int cols){
+    row_offset += rows;
+    col_offset += cols;
 }
 
 std::vector<position> Block::get_cell_Position(){

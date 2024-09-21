@@ -9,6 +9,8 @@ class Game
 {
 public:
     Game();
+    ~Game();
+
     grid Grid;
 
     //drwing feild and blocks
@@ -28,7 +30,10 @@ public:
     void lockblock();
 
 
+
+    int score;
     bool GameOver;
+    Music music;
 
 
 private:
@@ -38,7 +43,9 @@ Block next_block;
 bool isblockoutside();
 bool blockfits();
 void reset();
-
+void updatescores(int linescleared ,int blocksmoved);
+Sound rotatesound;
+Sound clearsound;
 
 };
 

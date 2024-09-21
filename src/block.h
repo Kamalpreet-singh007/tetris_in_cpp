@@ -12,7 +12,7 @@ class Block{
     std::map<int, std::vector<position>>cells;
 
 
-    void Draw();
+    void Draw(int offsetx, int offsety);
     void move(int row, int  col);
     void rotate();
     void undo_rotation();

@@ -29,7 +29,7 @@ void grid::draw(){
     for (int row =0;row<num_rows;row++){
         for(int col =0;col<num_cols;col++){
             int cell_value =Grid[row][col] ;
-            DrawRectangle(col*cell_size+1, row*cell_size+1, cell_size-1, cell_size-1, colors[cell_value]);
+            DrawRectangle(col*cell_size+11, row*cell_size+11, cell_size-1, cell_size-1, colors[cell_value]);
         }
     }
 
@@ -62,17 +62,18 @@ void grid::clearrow(int row){
 
 void grid::MoveRowDown(int row,int numrows){
     for (int column = 0; column<num_cols;column++){
-        Grid[row +numrows][column] = Grid[row][column];
+          Grid[row + numrows][column] = Grid[row][column];
          Grid[row][column] = 0;
     }
 }
 int grid::clearfullrows()
 {
-    int completd;
+    int completd  = 0 ;
     for(int row = num_rows-1; row>=0;row--){
     if(isrowfull(row)){
-        completd ++;
         clearrow(row);
+        completd ++;
+
     }
     else if(completd>0){
         MoveRowDown(row, completd);
